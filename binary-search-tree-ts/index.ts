@@ -141,18 +141,37 @@ export class bst{
             console.log("the key is in the root.");
             return this.root;
         }
-
-
         if(data < node.data){
-            
             return this.search(data, node.left);
             
         }
         else{
-            
             return this.search(data, node.right);
 
         }
+    }
+    searchIterative(data: number): Treenode | null{
+        let currnode = this.root;
+        if(currnode === null){
+            console.log("the list is empty.");
+            return null;
+        }
+        if(currnode.data === data){
+            console.log("the key is in the root.");
+            return currnode;
+        }
+        while(currnode !== null){
+            if(data < currnode!.data){
+                currnode = currnode!.left;
+            }
+            else if(data > currnode!.data){
+                currnode = currnode!.right;
+            }
+            else{
+                return currnode;
+            }
+        }
+        return null;
     }
 
     preorder(node: Treenode | null = this.root, visitorFn:(node: Treenode | null)=>void):void{
@@ -183,13 +202,13 @@ export class bst{
         visitorFn(node);
 
     }
-    //generator function
+
     *inorderTraversal(node: Treenode | null = this.root): IterableIterator<Treenode | null> {
         
         if(node){
             yield* this.inorderTraversal(node.left);
         }
-        
+
         yield node;
 
         if(node){
@@ -217,7 +236,6 @@ export class bst{
         
     }
 }
-
 
 
 
