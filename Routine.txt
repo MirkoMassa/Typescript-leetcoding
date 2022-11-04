@@ -1,0 +1,11 @@
+npm init -y
+npm i typescript ts-node
+npx tsc --init
+npm install mocha @types/mocha @types/node
+
+!package.json!
+"scripts": {
+    "test": "mocha --require ts-node/register/transpile-only tests.ts"
+  },
+
+npm run test
