@@ -2,8 +2,10 @@ export class Treenode{
 
     public left:Treenode | null;
     public right:Treenode | null;
+    public parent:Treenode | null;
     constructor(public data:number) {
         this.data = data;
+        this.parent = null;
         this.left = null;
         this.right = null;
 
@@ -39,33 +41,62 @@ export class bst{
         }
 
         else {
-            nullNode(this.root);
 
-            function nullNode(currnode: Treenode):void{
+            let child = new Treenode(data);
 
+            let currnode:Treenode | null = this.root;
+            let parentnode:Treenode | null = null;
+
+            while(currnode !== null){
+
+                parentnode = currnode;
                 if(data < currnode.data){
-                    if(currnode.left === null){
-                        currnode.left = new Treenode(data);
-                        return;
-                    }
-                    else if(currnode.left !== null){
-                        nullNode(currnode.left);
-                    }
+                    currnode = currnode.left;
+                } else {
+                    currnode = currnode.right;
+                }
 
-                }
-                else if(data >= currnode.data){
-                    if(currnode.right === null){
-                        currnode.right = new Treenode(data);
-                        return;
-                    }
-                    else if (currnode.right !== null){
-                        nullNode(currnode.right);
-                    }  
-                }
             }
+
+            if(data < parentnode!.data){
+                parentnode!.left = child;
+
+            } else {
+                parentnode!.right = child;
+
+            }
+            child.parent = parentnode;
+            return;
+
+        //     nullNode(this.root);
+
+        //     function nullNode(currnode: Treenode):void{
+
+        //         if(data < currnode.data){
+        //             if(currnode.left === null){
+        //                 currnode.left = new Treenode(data);
+        //                 return;
+        //             }
+        //             else if(currnode.left !== null){
+        //                 nullNode(currnode.left);
+        //             }
+
+        //         }
+        //         else if(data >= currnode.data){
+        //             if(currnode.right === null){
+        //                 currnode.right = new Treenode(data);
+        //                 return;
+        //             }
+        //             else if (currnode.right !== null){
+        //                 nullNode(currnode.right);
+        //             }  
+        //         }
+        //     }
+            
         }
 
     }
+
     findmin(): Treenode | null{
 
         if(this.root === null){
@@ -130,9 +161,76 @@ export class bst{
             this.preorder(node.left, visitorFn);
             this.preorder(node.right, visitorFn);
         }
-        
 
+    }
+    inorder(node: Treenode | null = this.root, visitorFn:(node: Treenode | null)=>void):void{
+        
+        if(node){
+            this.inorder(node.left, visitorFn);
+        }
+        visitorFn(node);
+
+        if(node){
+            this.inorder(node.right, visitorFn);
+        }
+
+    }
+    postorder(node: Treenode | null = this.root, visitorFn:(node: Treenode | null)=>void):void{
+        if(node){
+            this.postorder(node.left, visitorFn);
+            this.postorder(node.right, visitorFn);
+        }
+        visitorFn(node);
+
+    }
+    //generator function
+    *inorderTraversal(node: Treenode | null = this.root): IterableIterator<Treenode | null> {
+        
+        if(node){
+            yield* this.inorderTraversal(node.left);
+        }
+        
+        yield node;
+
+        if(node){
+            yield* this.inorderTraversal(node.right);
+        }
+
+    }
+    *postorderTraversal(node: Treenode | null = this.root): IterableIterator<Treenode | null> {
+
+        if(node){
+            yield* this.inorderTraversal(node.left);
+            yield* this.inorderTraversal(node.right);
+        }
+
+        yield node;
+    }
+    *preorderTraversal(node: Treenode | null = this.root): IterableIterator<Treenode | null> {
+
+        yield node;
+
+        if(node){
+            yield* this.inorderTraversal(node.left);
+            yield* this.inorderTraversal(node.right);
+        }
+        
     }
 }
 
 
+
+
+//how yeld works: it returns the current value and pauses the function instead of stopping it
+
+// function * intsGenerator(): IterableIterator<number> {
+//     let i = 0;
+//     while(true) {
+//         yield i++;
+//     }
+// }
+// var myInts = intsGenerator();
+// console.log(myInts.next());
+// console.log(myInts.next());
+// console.log(myInts.next());
+// console.log(myInts.next());

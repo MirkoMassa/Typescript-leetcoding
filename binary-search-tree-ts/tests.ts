@@ -17,11 +17,21 @@ describe('bst', ()=>{
                 mytree.add(values[i]);
 
             }
-            console.log(mytree.print());
-            console.log(mytree.search(16));
-            mytree.preorder(mytree.root, (node)=>{
-                console.log(node?.data ?? node+" has no child");
-            })
+             console.log(mytree.print());
+            // console.log(mytree.search(16));
+            // mytree.inorder(mytree.root, (node)=>{
+            //     if(node){
+            //         console.log(node?.data);
+            //     }
+                
+            // })
+            for (const node of mytree.inorderTraversal()) {
+                if(node){
+                    console.log(node.data);
+                    console.log("the parent is: ",node.parent);
+                }
+                
+            }
             assert.equal(mytree.root?.right?.right?.data, 9);
 
         })
