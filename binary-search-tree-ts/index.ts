@@ -152,11 +152,7 @@ export class bst{
     }
     searchIterative(data: number): Treenode | null{
         let currnode = this.root;
-        if(currnode === null){
-            console.log("the list is empty.");
-            return null;
-        }
-        if(currnode.data === data){
+        if(currnode!.data === data){
             console.log("the key is in the root.");
             return currnode;
         }
@@ -171,6 +167,7 @@ export class bst{
                 return currnode;
             }
         }
+        console.log("the list is empty.");
         return null;
     }
 
