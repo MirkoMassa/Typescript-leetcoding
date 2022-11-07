@@ -167,7 +167,7 @@ export class bst{
                 return currnode;
             }
         }
-        console.log("the list is empty.");
+        console.log("data not found.");
         return null;
     }
 
