@@ -32,11 +32,8 @@ export class LRUCache{
         if(this.cache.has(key)){
 
             //removing the key from the array and putting it at the end
-            let i = 0;
-            while(this.nodes[i] != key){
-                i++;
-            }
-            this.nodes.splice(i, 1);
+
+            this.nodes.splice(this.nodes.indexOf(key), 1);
             this.nodes.push(key);
             
             this.cache.set(key, value);
@@ -68,12 +65,7 @@ export class LRUCache{
 
         if(this.cache.has(key)){
 
-            let i = 0;
-            while(this.nodes[i] != key){
-                i++;
-            }
-
-            this.nodes.splice(i, 1);
+            this.nodes.splice(this.nodes.indexOf(key), 1);
             this.nodes.push(key);
 
             return this.cache.get(key)!;
